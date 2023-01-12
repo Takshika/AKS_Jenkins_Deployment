@@ -9,7 +9,7 @@ To validate if the pod is up or not
 Kubectl get pods
 kubectl get services
 ```
-images/jenkinslogsoutput.png
+![Screenshot](images/jenkinslogsoutput.png)
 
 To get the administrative password for jenkins pods, check pod logs
 ```
