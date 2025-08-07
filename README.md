@@ -18,7 +18,6 @@ Check the logs of the Jenkins Pod to find the initial admin password:
 ```
 kubectl logs <pod_name> -n jenkins
 ```
-![Screenshot](images/jenkinslogsoutput.png)
 Set default username and password to login inside jenkins. 
 
 ### Login to Jenkins
