@@ -1,14 +1,16 @@
-apiVersion: v1
-kind: PersistentVolume
+apiVersion: v1                      # Kubernetes API version for core resources
+kind: PersistentVolume             # Defines a PersistentVolume resource for storage
+
 metadata:
-  name: jenkins
+  name: jenkins                   # Name of the PersistentVolume
   labels:
-    type: local
+    type: local                  # Label to categorize the volume (local storage here)
+
 spec:
-  storageClassName: manual
+  storageClassName: manual        # StorageClass assigned (manual means no dynamic provisioning)
   capacity:
-    storage: 4Gi
+    storage: 4Gi                 # Size of the volume (4 Gigabytes)
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteOnce              # Volume can be mounted as read-write by a single node
   hostPath:
-    path: "/mnt/data"
+    path: "/data"            # Path on the host node’s filesystem used for storage

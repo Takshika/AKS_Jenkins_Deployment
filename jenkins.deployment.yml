@@ -1,46 +1,61 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps/v1           # Kubernetes API version for Deployment resource
+kind: Deployment              # Specifies this resource as a Deployment
+
 metadata:
-  name: jenkins
+  name: jenkins              # Name of the Deployment
   labels:
-    app: jenkins
+    app: jenkins             # Label to identify this Deployment and its Pods
+
 spec:
   selector:
     matchLabels:
-      app: jenkins
-  replicas: 1
+      app: jenkins          # Selector to match Pods with label app=jenkins
+
+  replicas: 1               # Number of Pod replicas (one Jenkins instance)
+
   strategy:
-    type: RollingUpdate
+    type: RollingUpdate      # Rolling update strategy for smooth updates
     rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
-  template:
+      maxSurge: 1           # Max number of extra Pods during update
+      maxUnavailable: 0     # No Pods should be unavailable during update
+
+  template:                 # Pod template specification
     metadata:
       labels:
-        app: jenkins
+        app: jenkins       # Label applied to Pods created by this Deployment
+
     spec:
       containers:
-      - name: jenkins
-        image: "jenkins"
-        imagePullPolicy: IfNotPresent
-        env:
+      - name: jenkins       # Container name
+        image: "jenkins"    # Container image (official Jenkins image)
+        imagePullPolicy: IfNotPresent  # Pull image only if not present locally
+
+        env:                 # Environment variables for Jenkins container
         - name: JAVA_OPTS
           value: -Xmx2048m -Dhudson.slaves.NodeProvisioner.MARGIN=50 -Dhudson.slaves.NodeProvisioner.MARGIN0=0.85
+          # JVM options: set max heap memory to 2GB and tune Jenkins slave provisioning margins
+
         ports:
-        - containerPort: 8080
+        - containerPort: 8080    # Jenkins web UI port
           protocol: TCP
-        - containerPort: 50000
+        - containerPort: 50000   # Jenkins agent communication port
           protocol: TCP
+
         volumeMounts:
-        - mountPath: /var/jenkins_home
-          name: jenkins
-      restartPolicy: Always
+        - mountPath: /var/jenkins_home   # Path inside container for Jenkins home directory
+          name: jenkins                 # Mount volume named 'jenkins' here
+
+      restartPolicy: Always        # Always restart the container on failure
+
       securityContext:
-        runAsUser: 0
-      terminationGracePeriodSeconds: 30
+        runAsUser: 0              # Run container as root user (UID 0)
+
+      terminationGracePeriodSeconds: 30   # Time to wait for graceful shutdown
+
       imagePullSecrets:
-      - name: etotestcredentials
+      - name: testcredentials   # Secret to access private container registry (replace with your secret name)
+
       volumes:
       - name: jenkins
         persistentVolumeClaim:
-          claimName: jenkins-claim
+          claimName: jenkins-claim   # Persistent Volume Claim for Jenkins data storage (replace if needed)

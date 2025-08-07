@@ -1,22 +1,29 @@
-apiVersion: v1
-kind: Service
+apiVersion: v1              # Kubernetes API version for core resources
+kind: Service              # Defines a Service to expose Pods
+
 metadata:
-  name: jenkins
+  name: jenkins           # Name of the Service
   labels:
-    app: jenkins
+    app: jenkins          # Label to identify this Service
+
 spec:
-#  type: ClusterIP
-  type: LoadBalancer
+  # type: ClusterIP       # (commented out) Default Service type for internal access only
+  type: LoadBalancer      # Exposes Service externally using cloud provider's load balancer
+
   ports:
-    - name: ui
-      port: 8080
-      targetPort: 8080
+    - name: ui            # Name for the Jenkins web UI port
+      port: 8080          # External port exposed by the Service
+      targetPort: 8080    # Port on the Pod to forward traffic to
       protocol: TCP
-    - name: slave
-      port: 50000
-      protocol: TCP
-    - name: http
-      port: 80
-      targetPort: 8080
+
+    - name: slave         # Name for Jenkins agent communication port
+      port: 50000         # External port exposed by the Service
+      protocol: TCP       # Protocol used
+
+    - name: http          # Additional HTTP port (often for redirect or alternate access)
+      port: 80            # External port 80 (standard HTTP)
+      targetPort: 8080    # Forwards to Jenkins UI port 8080 on the Pod
+
   selector:
-    app: jenkins
+    app: jenkins          # Selects Pods with label app=jenkins to route traffic to
+

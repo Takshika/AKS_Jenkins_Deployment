@@ -1,11 +1,13 @@
-apiVersion: v1
-kind: PersistentVolumeClaim
+apiVersion: v1                    # Kubernetes API version for core resources
+kind: PersistentVolumeClaim      # Defines a claim on PersistentVolume storage
+
 metadata:
-  name: jenkins-claim
+  name: jenkins-claim           # Name of this PVC
+
 spec:
-  storageClassName: manual
+  storageClassName: manual       # Matches the storage class of the PV (manual provisioning)
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteOnce             # Requesting read-write access by a single node
   resources:
     requests:
-      storage: 4Gi
+      storage: 4Gi              # Requesting 4 Gigabytes of storage
