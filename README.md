@@ -11,7 +11,6 @@ kubectl apply -f <folder_name> -n jenkins
 kubectl get pods -n jenkins
 kubectl get services -n jenkins
 ```
-![Screenshot](images/jenkinspods.png)
 
 ### Retrieve Jenkins Administrative Password
 Check the logs of the Jenkins Pod to find the initial admin password:
@@ -25,7 +24,6 @@ Use the default username and the retrieved password to log in.
 If you encounter the "No valid crumb" error when creating a new job, fix it by enabling proxy compatibility:
 - Go to Manage Jenkins → Configure Global Security → CSRF Protection
 - Check Enable proxy compatibility
-![Screenshot](images/CSPFProtection.png)
 
 ### Components and Flow
 1. Persistent Storage
